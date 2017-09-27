@@ -1,8 +1,8 @@
 import React from 'react';
-import './Header.css';
+import styles from './Header.css';
 
 const Header = () => (
-    <div className="Header">
+    <div className={styles.Header}>
         POSTS
     </div>
 );
