@@ -3,7 +3,7 @@ import styles from '../../styles/Header.scss';
 
 const Header = () => (
     <div className={styles.Header}>
-        POSTS
+        COIN
     </div>
 );
 
