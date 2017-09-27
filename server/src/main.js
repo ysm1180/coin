@@ -9,7 +9,7 @@ app.set('views', path.join(__dirname, '..', '..', 'build'));
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.json());
-app.use( express.static(path.join(__dirname, '..', '..', 'build')));
+app.use(express.static(path.join(__dirname, '..', '..', 'build')));
 
 app.get('/', router);
 
