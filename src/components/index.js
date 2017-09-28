@@ -1,7 +1,7 @@
 import Header from './Header/Header';
-import PostWrapper from './PostWrapper/PostWrapper';
+import MyInfoWrapper from './MyInfoWrapper/MyInfoWrapper';
 
 export {
     Header,
-    PostWrapper
+    MyInfoWrapper
 };

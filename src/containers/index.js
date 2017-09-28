@@ -1,5 +1,5 @@
-import PostContainer from './PostContainer/PostContainer.js';
+import MyInfoContainer from './MyInfoContainer/MyInfoContainer';
 
 export {
-    PostContainer
+    MyInfoContainer
 };
