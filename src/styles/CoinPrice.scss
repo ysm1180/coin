@@ -1,3 +1,11 @@
 .CoinPrice {
-    
+    display: inline-block;
+    width: 300px;
+    margin: 2rem;
+
+    .title {
+        text-align: center;
+        font-size: 1em;
+        font-weight: 600;
+    }
 }

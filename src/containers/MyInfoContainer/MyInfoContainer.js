@@ -21,7 +21,6 @@ class MyInfoContainer extends Component {
   }
 
   componentDidMount() {
-    //this.fetchCoinoneMyInfo();
   }
 
   updateToken = (type, value) => {
@@ -49,7 +48,6 @@ class MyInfoContainer extends Component {
       this.state.accessToken,
       this.state.secretKey
     );
-    console.log(data);
     const coinone = Object.assign({}, this.state.coinone);
     coinone.krw = data.data.krw.avail;
     coinone.btc = data.data.btc.avail;
