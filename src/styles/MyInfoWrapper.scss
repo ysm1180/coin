@@ -1,7 +1,10 @@
 .MyInfoWrapper {
-    width: 50rem;
-    margin: 0 auto;
+    margin: 0 2rem;
+    .bugget {
+        margin-top: 1rem;
+    }
 }
+
 
 @media (max-width: 768px) {
     .MyInfoWrapper {

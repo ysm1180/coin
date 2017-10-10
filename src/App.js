@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { MyInfoContainer } from './containers';
+import { MyInfoContainer, CoinoneContainer } from './containers';
 import { Header } from './components';
-
 
 class App extends Component {
   render() {
@@ -9,6 +8,7 @@ class App extends Component {
       <div>
         <Header />
         <MyInfoContainer />
+        <CoinoneContainer title="BCC" />
       </div>
     );
   }
