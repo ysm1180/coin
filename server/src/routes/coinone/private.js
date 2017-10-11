@@ -10,7 +10,7 @@ router.get('/balance/:token/:secret', function(req, res) {
     .then(respond => {
       res.end(JSON.stringify(respond.data));
     })
-    .catch((reason) => {
+    .catch(reason => {
       res.end(JSON.stringify(reason));
     });
 });

@@ -5,21 +5,27 @@ const router = express.Router();
 
 router.get('/ticker/:coin', function(req, res) {
   var headers = {
-    'content-type': 'application/json'
+    'content-type': 'application/json',
   };
 
   var instance = axios.create({
     baseURL: 'https://api.coinone.co.kr/',
-    headers
+    headers,
   });
 
   instance
     .get(`ticker/?currency=${req.params.coin}`)
     .then(respond => {
+      console.log('GET TICKER');
       res.end(JSON.stringify(respond.data));
     })
     .catch(reason => {
-      res.end(JSON.stringify(reason));
+      console.log('FAIL');
+      res.end(
+        JSON.stringify({
+          errorCode: '4',
+        })
+      );
     });
 });
 

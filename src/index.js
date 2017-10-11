@@ -5,21 +5,19 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 if (!window.Promise) {
-    window.Promise = Promise;
-  }
-
-const render = Component => {
-    ReactDOM.render(
-            <Component />
-        ,
-        document.getElementById('root')
-    )
+  window.Promise = Promise;
 }
 
-render(App)
+const render = Component => {
+  ReactDOM.render(<Component />, document.getElementById('root'));
+};
+
+render(App);
 
 if (module.hot) {
-    module.hot.accept('./App', () => { render(App) })
+  module.hot.accept('./App', () => {
+    render(App);
+  });
 }
 
 registerServiceWorker();

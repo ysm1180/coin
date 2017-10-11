@@ -1,37 +1,42 @@
 import React from 'react';
 import styles from '../../styles/MyInfoWrapper.scss';
-import { Input, Button, Form, Statistic } from 'semantic-ui-react';
+import { Input, Button, Form, Statistic, Label } from 'semantic-ui-react';
 
 const MyInfoWrapper = ({ krw, btc, etc, eth, bch, xrp, onChange, onClick }) => {
   const items = [
     {
+      color: 'red',
       label: 'KRW',
-      value: krw
+      value: krw,
     },
     {
       label: 'BTC',
-      value: btc
+      value: btc,
     },
     {
       label: 'BCH',
-      value: bch
+      value: bch,
     },
     {
       label: 'ETH',
-      value: eth
+      value: eth,
     },
     {
       label: 'ETC',
-      value: etc
+      value: etc,
     },
     {
       label: 'XRP',
-      value: xrp
-    }
+      value: xrp,
+    },
   ];
 
   return (
     <div className={styles.MyInfoWrapper}>
+      <div className={styles.bugget}>
+        <Label horizontal>잔고</Label>
+        <Statistic.Group items={items} size="mini" />
+      </div>
       <Form>
         <Form.Field>
           <Input
@@ -46,14 +51,11 @@ const MyInfoWrapper = ({ krw, btc, etc, eth, bch, xrp, onChange, onClick }) => {
           />
         </Form.Field>
         <Form.Field>
-          <Button color="teal" onClick={() => onClick()}>
-            COINONE 잔액
+          <Button color="blue" onClick={() => onClick()}>
+            COINONE 연결
           </Button>
         </Form.Field>
       </Form>
-      <div className={styles.bugget}>
-        <Statistic.Group items={items} size="mini" />
-      </div>
     </div>
   );
 };

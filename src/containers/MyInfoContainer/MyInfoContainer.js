@@ -13,24 +13,23 @@ class MyInfoContainer extends Component {
         bch: '0.0',
         eth: '0.0',
         etc: '0.0',
-        xrp: '0.0'
+        xrp: '0.0',
       },
       accessToken: '',
-      secretKey: ''
+      secretKey: '',
     };
   }
 
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   updateToken = (type, value) => {
     if (type === 'accessToken') {
       this.setState({
-        accessToken: value
+        accessToken: value,
       });
     } else if (type === 'secretKey') {
       this.setState({
-        secretKey: value
+        secretKey: value,
       });
     }
   };
@@ -38,7 +37,7 @@ class MyInfoContainer extends Component {
   applyToken = (accessToken, secretKey) => {
     this.setState({
       accessToken,
-      secretKey
+      secretKey,
     });
     this.fetchCoinoneMyInfo();
   };
@@ -56,7 +55,7 @@ class MyInfoContainer extends Component {
     coinone.etc = data.data.etc.avail;
     coinone.xrp = data.data.xrp.avail;
     this.setState({
-      coinone
+      coinone,
     });
   };
 

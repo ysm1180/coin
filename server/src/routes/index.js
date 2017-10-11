@@ -7,5 +7,4 @@ const router = express.Router();
 router.use('/private', coinPrivate);
 router.use('/public', coinPublic);
 
-
 export default router;

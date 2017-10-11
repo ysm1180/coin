@@ -15,13 +15,13 @@ export default class v2 {
     const headers = {
       'content-type': 'application/json',
       'X-COINONE-PAYLOAD': payload,
-      'X-COINONE-SIGNATURE': signature
+      'X-COINONE-SIGNATURE': signature,
     };
 
     return axios.create({
       baseURL: 'https://api.coinone.co.kr/v2/',
       headers,
-      data: payload
+      data: payload,
     });
   }
 }
