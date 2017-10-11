@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MyInfoContainer, CoinoneContainer } from './containers';
+import { MyInfoContainer, Coinone } from './containers';
 import { Header } from './components';
 
 class App extends Component {
@@ -8,7 +8,7 @@ class App extends Component {
       <div>
         <Header />
         <MyInfoContainer />
-        <CoinoneContainer title="BCC" />
+        <Coinone />
       </div>
     );
   }

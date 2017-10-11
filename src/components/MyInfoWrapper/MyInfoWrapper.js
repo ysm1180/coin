@@ -31,12 +31,13 @@ const MyInfoWrapper = ({ krw, btc, etc, eth, bch, xrp, onChange, onClick }) => {
     },
   ];
 
+  const statisticList = items.map(item => (
+    <Statistic size="mini" label={item.label} value={item.value} />
+  ));
+
   return (
     <div className={styles.MyInfoWrapper}>
-      <div className={styles.bugget}>
-        <Label horizontal>잔고</Label>
-        <Statistic.Group items={items} size="mini" />
-      </div>
+      <div className={styles.bugget}>{statisticList}</div>
       <Form>
         <Form.Field>
           <Input

@@ -1,4 +1,4 @@
 import MyInfoContainer from './MyInfoContainer/MyInfoContainer';
-import CoinoneContainer from './CoinoneContainer/CoinoneContainer';
+import Coinone from './Coinone/Coinone';
 
-export { MyInfoContainer, CoinoneContainer };
+export { MyInfoContainer, Coinone };
