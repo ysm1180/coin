@@ -12,9 +12,13 @@ function getServerAxios() {
 }
 
 export function getBalance(accessToken, secretKey) {
-  return getServerAxios().get(`coinone/private/balance/${accessToken}/${secretKey}`);
+  return getServerAxios().get(`api/coinone/private/balance/${accessToken}/${secretKey}`);
 }
 
 export function getTicker(coin) {
-  return getServerAxios().get(`coinone/public/ticker/${coin}`);
+  return getServerAxios().get(`api/coinone/public/ticker/${coin}`);
+}
+
+export function getTrades(coin) {
+  return getServerAxios().get(`api/coinone/public/trades/${coin}`);
 }

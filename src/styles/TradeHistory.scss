@@ -1,0 +1,50 @@
+.TradeHistory {
+    margin: 2rem;
+    text-align: center;
+    .price {
+        position: relative;
+        display: inline-block;
+        width: 50%;
+        text-align: left;
+        font-weight: bold;
+
+        &.title {
+            padding: (0.5em 0);
+            margin-bottom: 0.5em;
+            border-bottom: 1px solid #ddd;
+        }
+
+        &.number {
+            &.red {
+                color: lightcoral;
+            }
+
+            &.blue {
+                color: cornflowerblue;
+            }
+        }
+    }
+    .qty {
+        position: relative;
+        display: inline-block;
+        width: 50%;
+        text-align: right;
+
+        &.title {
+            padding: (0.5em 0);
+            margin-bottom: 0.5em;
+            border-bottom: 1px solid #ddd;
+            
+        }
+
+        &.number {
+            &.red {
+                color: lightcoral;
+            }
+
+            &.blue {
+                color: cornflowerblue;
+            }
+        }
+    }
+}
