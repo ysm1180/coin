@@ -24,5 +24,4 @@ yarn-error.log*
 
 package-lock.json
 server/package-lock.json
-
 yarn.lock

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../../styles/MyInfoWrapper.scss';
-import { Input, Button, Form, Statistic, Label } from 'semantic-ui-react';
+import { Input, Button, Form, Statistic } from 'semantic-ui-react';
 
 const MyInfoWrapper = ({ krw, btc, etc, eth, bch, xrp, onChange, onClick }) => {
   const items = [
@@ -31,8 +31,8 @@ const MyInfoWrapper = ({ krw, btc, etc, eth, bch, xrp, onChange, onClick }) => {
     },
   ];
 
-  const statisticList = items.map(item => (
-    <Statistic size="mini" label={item.label} value={item.value} />
+  const statisticList = items.map((item, index) => (
+    <Statistic size="mini" label={item.label} value={item.value} key={index} />
   ));
 
   return (
