@@ -24,4 +24,8 @@ yarn-error.log*
 
 package-lock.json
 server/package-lock.json
+<<<<<<< HEAD
 yarn.lock
+=======
+yarn.lock
+>>>>>>> ebea67856307eaf0e0ed5672f34859c4854b8dcc
