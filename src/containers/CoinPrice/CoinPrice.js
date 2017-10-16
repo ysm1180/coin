@@ -24,10 +24,10 @@ class CoinPrice extends Component {
     let deltaColor,
       unary = '';
     if (variation > 0) {
-      deltaColor = 'blue';
+      deltaColor = 'red';
       unary = '+';
     } else if (variation < 0) {
-      deltaColor = 'red';
+      deltaColor = 'blue';
     } else {
       deltaColor = 'grey';
     }

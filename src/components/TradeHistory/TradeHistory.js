@@ -9,13 +9,16 @@ const TradeHistory = ({ trades }) => {
 
   let tradeSet = [];
   let prevPrice = trades.length > 0 ? trades[0] : '';
-  let tradeQtySum = [0, 0, 0];
+  let tradeQtySum = [0, 0, 0]; // 해당 Array 의 element 수에 따라 그래프 표시 개수도 달라짐
   let time = [];
+  let lastPrices = [];
 
   const currentTime = new Date();
   for (let i = 0; i < tradeQtySum.length; ++i) {
     time.push(new Date(currentTime - i * TIME_MINUTE * 60000));
+    lastPrices.push(0);
   }
+
   for (let i = 0; i < trades.length; ++i) {
     const tradeTime = new Date(Number(trades[i].timestamp) * 1000);
     const tradeHour = tradeTime.getHours();
@@ -23,11 +26,12 @@ const TradeHistory = ({ trades }) => {
 
     for (let j = 0; j < tradeQtySum.length; ++j) {
       if (
-        time[j].getHours() == tradeHour &&
-        Math.floor(time[j].getMinutes() / TIME_MINUTE) == tradeMinuteZone
+        time[j].getHours() === tradeHour &&
+        Math.floor(time[j].getMinutes() / TIME_MINUTE) === tradeMinuteZone
       ) {
         tradeQtySum[j] += parseFloat(trades[i].qty);
         tradeQtySum[j] = Math.floor(parseFloat(tradeQtySum[j]) * 10000) / 10000;
+        lastPrices[j] = trades[i].price;
       }
     }
 
@@ -66,9 +70,9 @@ const TradeHistory = ({ trades }) => {
     <div className={styles.TradeHistory}>
       <div className={cx('price', 'title')}>체결가</div>
       <div className={cx('qty', 'title')}>거래량</div>
-      {tradeSet.map(trade => {
+      {tradeSet.map((trade, index) => {
         return (
-          <div>
+          <div key={index}>
             <div className={cx('price', 'number', trade.color)}>
               {trade.price}
             </div>
@@ -76,7 +80,7 @@ const TradeHistory = ({ trades }) => {
           </div>
         );
       })}
-      <TradeQtyChart values={tradeQtySum.reverse()} labels={labels.reverse()} />
+      <TradeQtyChart values={tradeQtySum.reverse()} labels={labels.reverse()} prices={lastPrices.reverse()}/>
     </div>
   );
 };

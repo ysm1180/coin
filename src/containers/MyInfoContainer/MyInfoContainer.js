@@ -49,11 +49,11 @@ class MyInfoContainer extends Component {
     );
     const coinone = Object.assign({}, this.state.coinone);
     coinone.krw = data.data.krw.avail;
-    coinone.btc = data.data.btc.avail;
-    coinone.bch = data.data.bch.avail;
-    coinone.eth = data.data.eth.avail;
-    coinone.etc = data.data.etc.avail;
-    coinone.xrp = data.data.xrp.avail;
+    coinone.btc = Math.floor(parseFloat(data.data.btc.avail) * 10000) / 10000;
+    coinone.bch = Math.floor(parseFloat(data.data.bch.avail) * 10000) / 10000;
+    coinone.eth = Math.floor(parseFloat(data.data.eth.avail) * 10000) / 10000;
+    coinone.etc = Math.floor(parseFloat(data.data.etc.avail) * 10000) / 10000;
+    coinone.xrp = Math.floor(parseFloat(data.data.xrp.avail) * 10000) / 10000;
     this.setState({
       coinone,
     });
