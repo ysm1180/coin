@@ -16,7 +16,7 @@ const TradeQtyChart = ({ prices, values, labels }) => {
         yAxisID: 'y-axis-1',
       },
       {
-        label: '가격',
+        label: '마지막 가격',
         backgroundColor: 'rgba(75,192,192,0.1)',
         borderColor: 'rgba(75,192,192,1)',
         borderWidth: 1,
