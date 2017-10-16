@@ -4,7 +4,7 @@ import coinPublic from './coinone/public';
 
 const router = express.Router();
 
-router.use('/private', coinPrivate);
-router.use('/public', coinPublic);
+router.use('/coinone/private', coinPrivate);
+router.use('/coinone/public', coinPublic);
 
 export default router;

@@ -4,6 +4,6 @@ import api from './routes';
 
 const app = express();
 
-app.use('/coinone', api);
+app.use('/api', api);
 
 app.listen(3000);
