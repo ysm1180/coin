@@ -1,12 +1,36 @@
 import React from 'react';
 import styles from '../../styles/TradeHistory.scss';
 import classnames from 'classnames/bind';
+import TradeQtyChart from '../TradeQtyChart/TradeQtyChart';
 const cx = classnames.bind(styles);
 
 const TradeHistory = ({ trades }) => {
+  const TIME_MINUTE = 15;
+
   let tradeSet = [];
   let prevPrice = trades.length > 0 ? trades[0] : '';
+  let tradeQtySum = [0, 0, 0];
+  let time = [];
+
+  const currentTime = new Date();
+  for (let i = 0; i < tradeQtySum.length; ++i) {
+    time.push(new Date(currentTime - i * TIME_MINUTE * 60000));
+  }
   for (let i = 0; i < trades.length; ++i) {
+    const tradeTime = new Date(Number(trades[i].timestamp) * 1000);
+    const tradeHour = tradeTime.getHours();
+    const tradeMinuteZone = Math.floor(tradeTime.getMinutes() / TIME_MINUTE);
+
+    for (let j = 0; j < tradeQtySum.length; ++j) {
+      if (
+        time[j].getHours() == tradeHour &&
+        Math.floor(time[j].getMinutes() / TIME_MINUTE) == tradeMinuteZone
+      ) {
+        tradeQtySum[j] += parseFloat(trades[i].qty);
+        tradeQtySum[j] = Math.floor(parseFloat(tradeQtySum[j]) * 10000) / 10000;
+      }
+    }
+
     if (prevPrice !== trades[i].price) {
       let color = '';
       if (Number(prevPrice) > trades[i].price) {
@@ -29,6 +53,15 @@ const TradeHistory = ({ trades }) => {
   }
 
   tradeSet = tradeSet.slice(0, 10);
+
+  const labels = [];
+  for (let i = 0; i < tradeQtySum.length; ++i) {
+    const minuteZone = Math.floor(time[i].getMinutes() / TIME_MINUTE);
+    labels.push(
+      `${minuteZone * TIME_MINUTE}분 - ${((minuteZone + 1) % 4) * TIME_MINUTE}분`
+    );
+  }
+
   return (
     <div className={styles.TradeHistory}>
       <div className={cx('price', 'title')}>체결가</div>
@@ -43,6 +76,7 @@ const TradeHistory = ({ trades }) => {
           </div>
         );
       })}
+      <TradeQtyChart values={tradeQtySum.reverse()} labels={labels.reverse()} />
     </div>
   );
 };
