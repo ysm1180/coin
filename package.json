@@ -92,10 +92,18 @@
   "babel": {
     "presets": [
       "react-app",
-      "stage-1"
+      "stage-0",
+      [
+        "env",
+        {
+          "modules": false
+        }
+      ]
     ],
     "plugins": [
       [
+        "react-hot-loader/babel",
+        "transform-class-properties",
         "lodash",
         {
           "id": [
@@ -110,8 +118,10 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "babel-preset-stage-1": "^6.24.1",
-    "react-hot-loader": "^3.0.0-beta.7"
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "react-hot-loader": "^3.1.1"
   },
   "prettier": {
     "singleQuote": true,

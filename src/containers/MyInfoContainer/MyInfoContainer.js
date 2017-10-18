@@ -22,7 +22,7 @@ class MyInfoContainer extends Component {
 
   componentDidMount() {}
 
-  updateToken = (type, value) => {
+  updateToken(type, value) {
     if (type === 'accessToken') {
       this.setState({
         accessToken: value,
@@ -32,17 +32,17 @@ class MyInfoContainer extends Component {
         secretKey: value,
       });
     }
-  };
+  }
 
-  applyToken = (accessToken, secretKey) => {
+  applyToken(accessToken, secretKey) {
     this.setState({
       accessToken,
       secretKey,
     });
     this.fetchCoinoneMyInfo();
-  };
+  }
 
-  fetchCoinoneMyInfo = async () => {
+  async fetchCoinoneMyInfo() {
     const data = await service.getBalance(
       this.state.accessToken,
       this.state.secretKey
@@ -68,8 +68,8 @@ class MyInfoContainer extends Component {
         eth={this.state.coinone.eth}
         etc={this.state.coinone.etc}
         xrp={this.state.coinone.xrp}
-        onClick={this.applyToken}
-        onChange={this.updateToken}
+        onClick={this.applyToken.bind(this)}
+        onChange={this.updateToken.bind(this)}
       />
     );
   }

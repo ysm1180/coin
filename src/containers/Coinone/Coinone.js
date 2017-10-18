@@ -42,12 +42,15 @@ class Coinone extends Component {
         qtum: [],
       },
     };
+
+    this.fetchCoinonePriceInfo = this.fetchCoinonePriceInfo.bind(this);
+    this.fetchCoinoneTradeHistory = this.fetchCoinoneTradeHistory.bind(this);
   }
 
   componentDidMount() {
     this.fetchCoinonePriceInfo();
     this.fetchCoinoneTradeHistory();
-    
+
     this.priceTimer = setInterval(() => {
       this.fetchCoinonePriceInfo();
     }, 2500);
@@ -61,7 +64,7 @@ class Coinone extends Component {
     clearInterval(this.tradesTimer);
   }
 
-  fetchCoinoneTradeHistory = async () => {
+  async fetchCoinoneTradeHistory() {
     const coin = ['btc', 'bch', 'eth', 'etc', 'xrp', 'qtum'];
     const data = await Promise.all([
       service.getTrades('btc'),
@@ -85,9 +88,9 @@ class Coinone extends Component {
     this.setState({
       trades,
     });
-  };
+  }
 
-  fetchCoinonePriceInfo = async () => {
+  async fetchCoinonePriceInfo() {
     const data = await service.getTicker('all');
     if (data.data.errorCode === '0') {
       const { btc, bch, eth, etc, xrp, qtum } = data.data;
@@ -109,7 +112,7 @@ class Coinone extends Component {
         price,
       });
     }
-  };
+  }
 
   render() {
     let { price } = this.state;
