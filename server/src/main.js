@@ -11,7 +11,7 @@ db.on('error', console.error);
 db.on('open', function() {
   console.log('DB CONNECTED');
 })
-mongoose.connect('mongodb://192.168.10.156/coin');
+mongoose.connect('mongodb://192.168.10.156/coin'); // Your MongoDB Server IP
 
 process.on('exit', function() {
   console.log('DB CLOSED');
