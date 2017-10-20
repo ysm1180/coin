@@ -15,7 +15,9 @@ class AlarmCoinPrice extends Component {
 
     this.postAlarmData = this.postAlarmData.bind(this);
     this.changeAlarmPrice = this.changeAlarmPrice.bind(this);
-    this.setAlarmPriceToCurrentPrice = this.setAlarmPriceToCurrentPrice.bind(this);
+    this.setAlarmPriceToCurrentPrice = this.setAlarmPriceToCurrentPrice.bind(
+      this
+    );
     this.addAlarmPrice = this.addAlarmPrice.bind(this);
   }
 
@@ -38,11 +40,17 @@ class AlarmCoinPrice extends Component {
 
   setAlarmPriceToCurrentPrice() {
     this.inputPrice.value = this.props.price;
+    this.setState({
+      alarmPrice: this.inputPrice.value,
+    });
   }
 
   addAlarmPrice(variation) {
     this.inputPrice.value = `${Number(this.inputPrice.value) +
       Number(variation)}`;
+    this.setState({
+      alarmPrice: this.inputPrice.value,
+    });
   }
 
   render() {
@@ -51,9 +59,8 @@ class AlarmCoinPrice extends Component {
         <Input
           placeholder="가격"
           action
-          onChange={e => this.changeAlarmPrice(e.target.value)}
         >
-          <input ref={ref => (this.inputPrice = ref)} />
+          <input ref={ref => (this.inputPrice = ref)} onChange={e => this.changeAlarmPrice(e.target.value)} />
           <Button type="submit" onClick={() => this.postAlarmData()}>
             Alarm
           </Button>
