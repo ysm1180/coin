@@ -8,8 +8,15 @@ class CoinPrice extends Component {
 
     this.state = {
       delta: '0',
-      deltaColor: '',
+      deltaColor: 'grey',
     };
+  }
+
+  shouldComponentUpdate(nextProps, nextStates) {
+    return (
+      JSON.stringify(this.props) !== JSON.stringify(nextProps) ||
+      JSON.stringify(this.state) !== JSON.stringify(nextStates)
+    );
   }
 
   componentWillReceiveProps(nextProps) {
@@ -17,12 +24,12 @@ class CoinPrice extends Component {
     let deltaColor,
       unary = '';
     if (variation > 0) {
-      deltaColor = 'blue';
+      deltaColor = 'red';
       unary = '+';
     } else if (variation < 0) {
-      deltaColor = 'red';
+      deltaColor = 'blue';
     } else {
-      deltaColor = '';
+      deltaColor = 'grey';
     }
     if (variation !== 0) {
       const delta = `${unary}${variation}`;
@@ -38,21 +45,29 @@ class CoinPrice extends Component {
   }
 
   render() {
-    let { coin, price, color } = this.props;
+    let { coin, price, color, firstPrice } = this.props;
     let { delta, deltaColor } = this.state;
+    const dayPercent =
+      Math.floor((Number(price) / Number(firstPrice) - 1) * 10000) / 100;
     price = this._numberWithCommas(price);
 
     return (
       <div className={styles.CoinPrice}>
         <div className={styles.title}>
           <Label color={color} horizontal>
-            {title}
+            {coin}
           </Label>
           <Icon name="won" />
           <span>{price}</span>
           <Label color={deltaColor} floating>
             {delta}
           </Label>
+        </div>
+        <div className={styles.content}>
+          <Label horizontal color="pink">
+            전일 대비
+          </Label>
+          <span className={(dayPercent > 0 ? styles.txtBlue : styles.txtRed)}>{dayPercent}%</span>
         </div>
       </div>
     );

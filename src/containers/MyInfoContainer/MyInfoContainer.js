@@ -20,9 +20,10 @@ class MyInfoContainer extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+  }
 
-  updateToken = (type, value) => {
+  updateToken(type, value) {
     if (type === 'accessToken') {
       this.setState({
         accessToken: value,
@@ -32,28 +33,29 @@ class MyInfoContainer extends Component {
         secretKey: value,
       });
     }
-  };
+  }
 
-  applyToken = (accessToken, secretKey) => {
+
+  applyToken(accessToken, secretKey) {
     this.setState({
       accessToken,
       secretKey,
     });
     this.fetchCoinoneMyInfo();
-  };
+  }
 
-  fetchCoinoneMyInfo = async () => {
+  async fetchCoinoneMyInfo() {
     const data = await service.getBalance(
       this.state.accessToken,
       this.state.secretKey
     );
     const coinone = Object.assign({}, this.state.coinone);
     coinone.krw = data.data.krw.avail;
-    coinone.btc = data.data.btc.avail;
-    coinone.bch = data.data.bch.avail;
-    coinone.eth = data.data.eth.avail;
-    coinone.etc = data.data.etc.avail;
-    coinone.xrp = data.data.xrp.avail;
+    coinone.btc = Math.floor(parseFloat(data.data.btc.avail) * 10000) / 10000;
+    coinone.bch = Math.floor(parseFloat(data.data.bch.avail) * 10000) / 10000;
+    coinone.eth = Math.floor(parseFloat(data.data.eth.avail) * 10000) / 10000;
+    coinone.etc = Math.floor(parseFloat(data.data.etc.avail) * 10000) / 10000;
+    coinone.xrp = Math.floor(parseFloat(data.data.xrp.avail) * 10000) / 10000;
     this.setState({
       coinone,
     });
@@ -68,8 +70,10 @@ class MyInfoContainer extends Component {
         eth={this.state.coinone.eth}
         etc={this.state.coinone.etc}
         xrp={this.state.coinone.xrp}
-        onClick={this.applyToken}
-        onChange={this.updateToken}
+        onClick={this.applyToken.bind(this)}
+        onChange={this.updateToken.bind(this)}
+        onPhoneChange={this.props.onPhoneChange}
+        phone={this.props.phone}
       />
     );
   }
