@@ -3,6 +3,15 @@ import axios from 'axios';
 import mongoose from 'mongoose';
 
 const router = express.Router();
+const Schema = mongoose.Schema;
+const recordSchema = new Schema({
+  coin: String,
+  price: Number,
+  timestamp: Number,
+  first: Number,
+  dayVolume: Number,
+});
+const Record = mongoose.model('record', recordSchema);
 
 router.get('/trades/:coin', function(req, res) {
   var headers = {
@@ -31,28 +40,12 @@ router.get('/trades/:coin', function(req, res) {
 });
 
 router.get('/ticker/:coin', function(req, res) {
-  var headers = {
-    'content-type': 'application/json',
-  };
-
-  var instance = axios.create({
-    baseURL: 'https://api.coinone.co.kr/',
-    headers,
-  });
-
-  instance
-    .get(`ticker/?currency=${req.params.coin}`)
-    .then(respond => {
-      console.log('GET TICKER');
-      res.end(JSON.stringify(respond.data));
-    })
-    .catch(reason => {
-      console.log('FAIL');
-      res.end(
-        JSON.stringify({
-          errorCode: '4',
-        })
-      );
+  Record.find({ coin: req.params.coin })
+    .sort('-timestamp')
+    .limit(1)
+    .exec(function(err, records) {
+      console.log(records[0]);
+      res.end(JSON.stringify(records[0]));
     });
 });
 

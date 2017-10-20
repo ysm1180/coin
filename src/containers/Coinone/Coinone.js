@@ -91,26 +91,25 @@ class Coinone extends Component {
   }
 
   async fetchCoinonePriceInfo() {
-    const data = await service.getTicker('all');
-    if (data.data.errorCode === '0') {
-      const { btc, bch, eth, etc, xrp, qtum } = data.data;
-      const price = Object.assign({}, this.state.price);
+    const coin = ['btc', 'bch', 'eth', 'etc', 'xrp', 'qtum'];
+    const data = await Promise.all([
+      service.getTicker('btc'),
+      service.getTicker('bch'),
+      service.getTicker('eth'),
+      service.getTicker('etc'),
+      service.getTicker('xrp'),
+      service.getTicker('qtum'),
+    ]);
 
-      price.btc.first = btc.first;
-      price.bch.first = bch.first;
-      price.eth.first = eth.first;
-      price.etc.first = etc.first;
-      price.xrp.first = xrp.first;
-      price.qtum.first = qtum.first;
-      price.btc.last = btc.last;
-      price.bch.last = bch.last;
-      price.eth.last = eth.last;
-      price.etc.last = etc.last;
-      price.xrp.last = xrp.last;
-      price.qtum.last = qtum.last;
-      this.setState({
-        price,
-      });
+    for (let i = 0; i < data.length; ++i) {
+        const ticker = data[i].data;
+        const price = Object.assign({}, this.state.price);
+        
+        price[coin[i]].first = ticker.first;
+        price[coin[i]].last = ticker.price;
+        this.setState({
+          price,
+        });
     }
   }
 

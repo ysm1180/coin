@@ -10,11 +10,8 @@ const alarmSchema = new Schema({
   cnt: Number,
 });
 const Alarm = mongoose.model('alarm', alarmSchema);
-const db = mongoose.connection;
-db.on('error', console.error);
 
 router.post('/set', function(req, res) {
-  mongoose.connect('mongodb://192.168.10.156/coin');
   Alarm.find({
     coin: req.body.coin,
     price: Number(req.body.price),
@@ -54,9 +51,6 @@ router.post('/set', function(req, res) {
           return Promise.resolve();
         });
       }
-    })
-    .then(() => {
-      db.close();
     });
 });
 
