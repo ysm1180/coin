@@ -153,7 +153,8 @@ module.exports = {
               // directory for faster rebuilds.
               cacheDirectory: true,
               plugins: [
-                'react-hot-loader/babel'
+                'react-hot-loader/babel',
+                'transform-class'
               ]
             },  
           },

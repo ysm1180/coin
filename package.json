@@ -38,6 +38,7 @@
     "promise-polyfill": "^6.0.2",
     "react": "^16.0.0",
     "react-chartjs-2": "^2.6.4",
+    "react-cookie": "^2.1.1",
     "react-dev-utils": "^4.1.0",
     "react-dom": "^16.0.0",
     "sass-loader": "^6.0.6",
@@ -91,18 +92,19 @@
   },
   "babel": {
     "presets": [
-      "react-app",
-      "stage-0",
       [
         "env",
         {
           "modules": false
         }
-      ]
+      ],
+      "react-app",
+      "stage-0"
     ],
     "plugins": [
       [
         "react-hot-loader/babel",
+        "transfrom-class",
         "transform-class-properties",
         "lodash",
         {
@@ -118,6 +120,7 @@
     "extends": "react-app"
   },
   "devDependencies": {
+    "babel-plugin-transform-class": "^0.3.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-stage-0": "^6.24.1",

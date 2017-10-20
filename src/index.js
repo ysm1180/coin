@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './styles/index.scss';
 import { AppContainer } from 'react-hot-loader';
 import App from './App';
+import { CookiesProvider } from 'react-cookie';
 
 if (!window.Promise) {
   window.Promise = Promise;
@@ -11,7 +12,9 @@ if (!window.Promise) {
 const render = Component => {
   ReactDOM.render(
     <AppContainer>
-      <Component />
+      <CookiesProvider>
+        <Component />
+      </CookiesProvider>
     </AppContainer>,
     document.getElementById('root')
   );

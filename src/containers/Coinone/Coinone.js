@@ -125,6 +125,8 @@ class Coinone extends Component {
           price={price.btc.last}
           firstPrice={price.btc.first}
           trades={this.state.trades.btc}
+          step={500}
+          phone={this.props.phone}
         />
         <CoinWrapper
           coin="BCH"
@@ -132,6 +134,8 @@ class Coinone extends Component {
           price={price.bch.last}
           firstPrice={price.bch.first}
           trades={this.state.trades.bch}
+          step={100}
+          phone={this.props.phone}
         />
         <CoinWrapper
           coin="ETH"
@@ -139,6 +143,8 @@ class Coinone extends Component {
           price={price.eth.last}
           firstPrice={price.eth.first}
           trades={this.state.trades.eth}
+          step={50}
+          phone={this.props.phone}
         />
         <CoinWrapper
           coin="ETC"
@@ -146,6 +152,8 @@ class Coinone extends Component {
           price={price.etc.last}
           firstPrice={price.etc.first}
           trades={this.state.trades.etc}
+          step={10}
+          phone={this.props.phone}
         />
         <CoinWrapper
           coin="XRP"
@@ -153,6 +161,8 @@ class Coinone extends Component {
           price={price.xrp.last}
           firstPrice={price.xrp.first}
           trades={this.state.trades.xrp}
+          step={1}
+          phone={this.props.phone}
         />
         <CoinWrapper
           coin="QTUM"
@@ -160,6 +170,8 @@ class Coinone extends Component {
           price={price.qtum.last}
           firstPrice={price.qtum.first}
           trades={this.state.trades.qtum}
+          step={10}
+          phone={this.props.phone}
         />
       </div>
     );

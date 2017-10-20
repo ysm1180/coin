@@ -20,7 +20,8 @@ class MyInfoContainer extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+  }
 
   updateToken(type, value) {
     if (type === 'accessToken') {
@@ -33,6 +34,7 @@ class MyInfoContainer extends Component {
       });
     }
   }
+
 
   applyToken(accessToken, secretKey) {
     this.setState({
@@ -70,6 +72,8 @@ class MyInfoContainer extends Component {
         xrp={this.state.coinone.xrp}
         onClick={this.applyToken.bind(this)}
         onChange={this.updateToken.bind(this)}
+        onPhoneChange={this.props.onPhoneChange}
+        phone={this.props.phone}
       />
     );
   }
