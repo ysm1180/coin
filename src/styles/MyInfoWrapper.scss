@@ -1,16 +1,16 @@
 .MyInfoWrapper {
-  margin: 0 2rem;
-  align-items: center;
-  .bugget {
-    margin-top: 1rem;
-    position: relative;
-    display: inline-block;
-    text-align: center;
-  }
+    margin: 0 2rem;
+    align-items: center;
+    .bugget {
+        margin-top: 1rem;
+        position: relative;
+        display: inline-block;
+        text-align: center;
+    }
 }
 
 @media (max-width: 768px) {
-  .MyInfoWrapper {
-    width: 90%;
-  }
+    .MyInfoWrapper {
+        width: 90%;
+    }
 }

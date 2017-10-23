@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Input, Button } from 'semantic-ui-react';
+import Alert from '../Alert/Alert';
 import * as service from '../../services/coinone';
 import styles from '../../styles/AlarmCoinPrice.scss';
 import classnames from 'classnames/bind';
@@ -11,6 +12,8 @@ class AlarmCoinPrice extends Component {
 
     this.state = {
       alarmPrice: '0',
+      alertMessage: '',
+      alertVisibility: false,
     };
 
     this.postAlarmData = this.postAlarmData.bind(this);
@@ -27,6 +30,16 @@ class AlarmCoinPrice extends Component {
       const alarmPrice = this.state.alarmPrice;
       const phone = '82' + this.props.phone.substring(1).replace('-', '');
       await service.postAlarmData(coin, alarmPrice, phone);
+
+      this.setState({
+        alertMessage: `${coin} : ${alarmPrice}원 알람이 설정되었습니다.`,
+        alertVisibility: true,
+      });
+      setTimeout(() => {
+        this.setState({
+          alertVisibility: false,
+        });
+      }, 1500);
     } catch (err) {
       console.log(err);
     }
@@ -56,11 +69,11 @@ class AlarmCoinPrice extends Component {
   render() {
     return (
       <div className={cx('AlarmCoinPrice')}>
-        <Input
-          placeholder="가격"
-          action
-        >
-          <input ref={ref => (this.inputPrice = ref)} onChange={e => this.changeAlarmPrice(e.target.value)} />
+        <Input placeholder="가격" action>
+          <input
+            ref={ref => (this.inputPrice = ref)}
+            onChange={e => this.changeAlarmPrice(e.target.value)}
+          />
           <Button type="submit" onClick={() => this.postAlarmData()}>
             Alarm
           </Button>
@@ -92,6 +105,10 @@ class AlarmCoinPrice extends Component {
             </Button.Group>
           </div>
         </div>
+        <Alert
+          message={this.state.alertMessage}
+          visible={this.state.alertVisibility}
+        />
       </div>
     );
   }
