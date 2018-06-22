@@ -1,12 +1,7 @@
 .MyInfoWrapper {
   margin: 0 2rem;
   align-items: center;
-  .bugget {
-    margin-top: 1rem;
-    position: relative;
-    display: inline-block;
-    text-align: center;
-  }
+  text-align: center;
 }
 
 @media (max-width: 768px) {

@@ -31,7 +31,7 @@ class App extends Component {
     return (
       <div>
         <Header />
-        <MyInfoContainer onPhoneChange={this.updatePhoneNumber.bind(this)} phone={this.state.phone} />
+        <MyInfoContainer />
         <Coinone phone={this.state.phone} />
       </div>
     );
