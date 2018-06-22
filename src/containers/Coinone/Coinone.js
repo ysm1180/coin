@@ -53,7 +53,7 @@ class Coinone extends Component {
 
     this.priceTimer = setInterval(() => {
       this.fetchCoinonePriceInfo();
-    }, 2500);
+    }, 5000);
     this.tradesTimer = setInterval(() => {
       this.fetchCoinoneTradeHistory();
     }, 5000);
@@ -125,7 +125,6 @@ class Coinone extends Component {
           firstPrice={price.btc.first}
           trades={this.state.trades.btc}
           step={500}
-          phone={this.props.phone}
         />
         <CoinWrapper
           coin="BCH"
@@ -134,7 +133,6 @@ class Coinone extends Component {
           firstPrice={price.bch.first}
           trades={this.state.trades.bch}
           step={100}
-          phone={this.props.phone}
         />
         <CoinWrapper
           coin="ETH"
@@ -143,7 +141,6 @@ class Coinone extends Component {
           firstPrice={price.eth.first}
           trades={this.state.trades.eth}
           step={50}
-          phone={this.props.phone}
         />
         <CoinWrapper
           coin="ETC"
@@ -152,7 +149,6 @@ class Coinone extends Component {
           firstPrice={price.etc.first}
           trades={this.state.trades.etc}
           step={10}
-          phone={this.props.phone}
         />
         <CoinWrapper
           coin="XRP"
@@ -161,7 +157,6 @@ class Coinone extends Component {
           firstPrice={price.xrp.first}
           trades={this.state.trades.xrp}
           step={1}
-          phone={this.props.phone}
         />
         <CoinWrapper
           coin="QTUM"
@@ -170,7 +165,6 @@ class Coinone extends Component {
           firstPrice={price.qtum.first}
           trades={this.state.trades.qtum}
           step={10}
-          phone={this.props.phone}
         />
       </div>
     );

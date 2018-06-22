@@ -3,7 +3,7 @@ import v2 from './v2';
 
 const router = express.Router();
 
-router.get('/balance/:token/:secret', function(req, res) {
+router.get('/balance/:token/:secret', function (req, res) {
   v2
     .request({}, req.params.token, req.params.secret)
     .post('account/balance')

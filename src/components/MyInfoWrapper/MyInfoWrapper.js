@@ -57,15 +57,7 @@ class MyInfoWrapper extends Component {
     
     return (
       <div className={styles.MyInfoWrapper}>
-        <Form>
-          <Form.Field>
-            <Input
-              label="PHONE NUMBER"
-              onChange={e => onPhoneChange(e.target.value)}
-              defaultValue={this.props.phone}
-            />
-          </Form.Field>
-        </Form>
+        
       </div>
     );
   }

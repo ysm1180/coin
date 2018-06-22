@@ -41,7 +41,11 @@ class CoinPrice extends Component {
   }
 
   _numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    if (typeof x === 'string') {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    } else {
+      return 1;
+    }
   }
 
   render() {

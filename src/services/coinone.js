@@ -24,11 +24,3 @@ export function getTicker(coin) {
 export function getTrades(coin) {
   return getServerAxios().get(`api/coinone/public/trades/${coin}`);
 }
-
-export function postAlarmData(coin, price, phone) {
-  return getServerAxios().post('api/coinone/alarm/set', {
-    price,
-    coin,
-    phone,
-  });
-}

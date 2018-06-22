@@ -1,19 +1,12 @@
 import express from 'express';
 import axios from 'axios';
-import mongoose from 'mongoose';
 
 const router = express.Router();
-const Schema = mongoose.Schema;
-const recordSchema = new Schema({
-  coin: String,
-  price: Number,
-  timestamp: Number,
-  first: Number,
-  dayVolume: Number,
-});
-const Record = mongoose.model('record', recordSchema);
 
-router.get('/trades/:coin', function(req, res) {
+let tickerData = null;
+let priceData = {};
+
+router.get('/trades/:coin', function (req, res) {
   var headers = {
     'content-type': 'application/json',
   };
@@ -26,7 +19,6 @@ router.get('/trades/:coin', function(req, res) {
   instance
     .get(`trades/?currency=${req.params.coin}&period=hour`)
     .then(respond => {
-      console.log('GET TRADES');
       res.end(JSON.stringify(respond.data));
     })
     .catch(reason => {
@@ -39,14 +31,62 @@ router.get('/trades/:coin', function(req, res) {
     });
 });
 
-router.get('/ticker/:coin', function(req, res) {
-  Record.find({ coin: req.params.coin })
-    .sort('-timestamp')
-    .limit(1)
-    .exec(function(err, records) {
-      console.log(records[0]);
-      res.end(JSON.stringify(records[0]));
+function getTicker() {
+  var headers = {
+    'content-type': 'application/json',
+  };
+
+  var instance = axios.create({
+    baseURL: 'https://api.coinone.co.kr/',
+    headers,
+  });
+
+  return instance
+    .get(`ticker/?currency=ALL`)
+    .then(respond => {
+      return Promise.resolve(JSON.stringify(respond.data));
+    })
+    .catch(reason => {
+      console.log('FAIL');
+      return Promise.resolve(
+        JSON.stringify({
+          errorCode: '4',
+        })
+      );
     });
+}
+
+router.get('/ticker/:coin', function (req, res) {
+  if (!tickerData || priceData[req.params.coin] === 1) {
+    getTicker()
+    .then((response) => {
+      response = JSON.parse(response);
+      tickerData = response;
+
+      console.log('GET');
+      if (response.errorCode === '0') {
+        var data = {};
+
+        data.first = response[req.params.coin].first || 1;
+        data.price = response[req.params.coin].last || 1;
+
+        priceData = {};
+        priceData[req.params.coin] = 1;
+        res.end(JSON.stringify(data));
+      } else {
+        res.end(
+          JSON.stringify({
+            errorCode: '4',
+          })
+        );
+      }
+    });
+  } else {
+    const data = {};
+    data.first = tickerData[req.params.coin].first || 1;
+    data.price = tickerData[req.params.coin].last || 1;
+    res.end(JSON.stringify(data));
+  }
 });
 
 export default router;

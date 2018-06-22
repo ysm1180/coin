@@ -1,9 +1,9 @@
 import React from 'react';
-import { CoinPrice, AlarmCoinPrice } from '../../containers';
+import { CoinPrice } from '../../containers';
 import TradeHistory from '../TradeHistory/TradeHistory';
 import styles from '../../styles/CoinWrapper.scss';
 
-const CoinWrapper = ({coin, color, price, firstPrice, trades, phone, step}) => (
+const CoinWrapper = ({coin, color, price, firstPrice, trades, step}) => (
     <div className={styles.CoinWrapper}>
         <CoinPrice
           coin={coin}
@@ -12,7 +12,6 @@ const CoinWrapper = ({coin, color, price, firstPrice, trades, phone, step}) => (
           firstPrice={firstPrice}
         />
         <TradeHistory trades={trades} />
-        <AlarmCoinPrice coin={coin} phone={phone} price={price} step={step} />
     </div>
 );
 
