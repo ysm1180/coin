@@ -41,7 +41,7 @@ class Coinone extends Component {
     },
     {
       name: 'ltc',
-      color: 'gray',
+      color: 'grey',
     },
     {
       name: 'iota',
@@ -57,7 +57,7 @@ class Coinone extends Component {
     },
     {
       name: 'eos',
-      color: 'gray',
+      color: 'grey',
     },
     {
       name: 'data',
@@ -65,7 +65,7 @@ class Coinone extends Component {
     }
     ];
     for (let i = 0; i < this.COIN_LIST.length; i++) {
-      this.state.coinInfo.push({ 
+      this.state.coinInfo.push({
         name: this.COIN_LIST[i].name.toUpperCase(),
         color: this.COIN_LIST[i].color,
       });
@@ -117,7 +117,7 @@ class Coinone extends Component {
 
   async fetchCoinonePriceInfo() {
     const tickerFns = [];
-    for (let i = 0; i < this.COIN_LIST.length; i++) {
+    for (let i = 0; i < this.state.coinInfo.length; i++) {
       tickerFns.push(service.getTicker(this.COIN_LIST[i].name));
     }
 
@@ -138,7 +138,18 @@ class Coinone extends Component {
   }
 
   render() {
-    let { price } = this.state;
+    const coinInfo = this.state.coinInfo.slice(0);
+    
+    coinInfo.sort((a, b) => {
+      if (a.price && b.price) {
+        const percentA = Math.floor((Number(a.price.last) / Number(a.price.first) - 1) * 10000) / 100;
+        const percentB = Math.floor((Number(b.price.last) / Number(b.price.first) - 1) * 10000) / 100;
+
+        return percentB - percentA;
+      } else {
+        return 0;
+      }
+    });
 
     return (
       <div className={styles.Coinone}>
@@ -146,7 +157,7 @@ class Coinone extends Component {
           COINONE
           </div>
         <div>
-          {this.state.coinInfo.map((info) => {
+          {coinInfo.map((info) => {
             if (info.price && info.trades) {
               return (<CoinWrapper
                 coin={info.name}
