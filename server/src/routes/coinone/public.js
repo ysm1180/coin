@@ -17,7 +17,7 @@ router.get('/trades/:coin', function (req, res) {
   });
 
   instance
-    .get(`trades/?currency=${req.params.coin}&period=hour`)
+    .get(`trades/?currency=${req.params.coin}&period=day`)
     .then(respond => {
       res.end(JSON.stringify(respond.data));
     })

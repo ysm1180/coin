@@ -71,7 +71,7 @@ class CoinPrice extends Component {
           <Label horizontal color="pink">
             전일 대비
           </Label>
-          <span className={(dayPercent > 0 ? styles.txtBlue : styles.txtRed)}>{dayPercent}%</span>
+          <span className={(dayPercent > 0 ? styles.txtRed : styles.txtBlue)}>{dayPercent}%</span>
         </div>
       </div>
     );

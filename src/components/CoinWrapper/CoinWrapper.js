@@ -3,7 +3,7 @@ import { CoinPrice } from '../../containers';
 import TradeHistory from '../TradeHistory/TradeHistory';
 import styles from '../../styles/CoinWrapper.scss';
 
-const CoinWrapper = ({coin, color, price, firstPrice, trades, step}) => (
+const CoinWrapper = ({coin, color, price, firstPrice, trades}) => (
     <div className={styles.CoinWrapper}>
         <CoinPrice
           coin={coin}

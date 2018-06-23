@@ -1,50 +1,75 @@
 import React, { Component } from 'react';
 import { CoinWrapper } from '../../components';
 import * as service from '../../services/coinone';
+import styles from '../../styles/Coinone.scss';
 
 class Coinone extends Component {
+
   constructor(props) {
     super(props);
 
     this.state = {
-      price: {
-        btc: {
-          last: '0',
-          first: '0',
-        },
-        bch: {
-          last: '0',
-          first: '0',
-        },
-        eth: {
-          last: '0',
-          first: '0',
-        },
-        etc: {
-          last: '0',
-          first: '0',
-        },
-        xrp: {
-          last: '0',
-          first: '0',
-        },
-        qtum: {
-          last: '0',
-          first: '0',
-        },
-      },
-      trades: {
-        btc: [],
-        bch: [],
-        eth: [],
-        etc: [],
-        xrp: [],
-        qtum: [],
-      },
+      coinInfo: [],
     };
 
     this.fetchCoinonePriceInfo = this.fetchCoinonePriceInfo.bind(this);
     this.fetchCoinoneTradeHistory = this.fetchCoinoneTradeHistory.bind(this);
+
+    this.COIN_LIST = [{
+      name: 'btc',
+      color: 'red',
+    },
+    {
+      name: 'bch',
+      color: 'red',
+    },
+    {
+      name: 'eth',
+      color: 'teal',
+    },
+    {
+      name: 'etc',
+      color: 'teal',
+    },
+    {
+      name: 'xrp',
+      color: 'orange',
+    },
+    {
+      name: 'qtum',
+      color: 'blue'
+    },
+    {
+      name: 'ltc',
+      color: 'gray',
+    },
+    {
+      name: 'iota',
+      color: 'purple',
+    },
+    {
+      name: 'btg',
+      color: 'yellow',
+    },
+    {
+      name: 'omg',
+      color: 'olive'
+    },
+    {
+      name: 'eos',
+      color: 'gray',
+    },
+    {
+      name: 'data',
+      color: 'green'
+    }
+    ];
+    for (let i = 0; i < this.COIN_LIST.length; i++) {
+      this.state.coinInfo.push({ 
+        name: this.COIN_LIST[i].name.toUpperCase(),
+        color: this.COIN_LIST[i].color,
+      });
+    }
   }
 
   componentDidMount() {
@@ -65,107 +90,75 @@ class Coinone extends Component {
   }
 
   async fetchCoinoneTradeHistory() {
-    const coin = ['btc', 'bch', 'eth', 'etc', 'xrp', 'qtum'];
-    const data = await Promise.all([
-      service.getTrades('btc'),
-      service.getTrades('bch'),
-      service.getTrades('eth'),
-      service.getTrades('etc'),
-      service.getTrades('xrp'),
-      service.getTrades('qtum'),
-    ]);
+    const tradesFns = [];
+    for (let i = 0; i < this.COIN_LIST.length; i++) {
+      tradesFns.push(service.getTrades(this.COIN_LIST[i].name));
+    }
 
-    const trades = {};
+    const data = await Promise.all(tradesFns);
+
+    const coinInfo = this.state.coinInfo;
+    let trades = [];
     for (let i = 0; i < data.length; ++i) {
       if (data[i].data.errorCode === '0') {
         const { completeOrders } = data[i].data;
-        trades[coin[i]] = [...completeOrders];
+        trades = [...completeOrders];
       } else {
-        trades[coin[i]] = [];
+        trades = [];
       }
+
+      coinInfo[i].trades = trades;
     }
 
     this.setState({
-      trades,
+      coinInfo,
     });
   }
 
   async fetchCoinonePriceInfo() {
-    const coin = ['btc', 'bch', 'eth', 'etc', 'xrp', 'qtum'];
-    const data = await Promise.all([
-      service.getTicker('btc'),
-      service.getTicker('bch'),
-      service.getTicker('eth'),
-      service.getTicker('etc'),
-      service.getTicker('xrp'),
-      service.getTicker('qtum'),
-    ]);
-
-    for (let i = 0; i < data.length; ++i) {
-        const ticker = data[i].data;
-        const price = Object.assign({}, this.state.price);
-        
-        price[coin[i]].first = ticker.first;
-        price[coin[i]].last = ticker.price;
-        this.setState({
-          price,
-        });
+    const tickerFns = [];
+    for (let i = 0; i < this.COIN_LIST.length; i++) {
+      tickerFns.push(service.getTicker(this.COIN_LIST[i].name));
     }
+
+    const data = await Promise.all(tickerFns);
+
+    const coinInfo = this.state.coinInfo;
+    for (let i = 0; i < data.length; ++i) {
+      const ticker = data[i].data;
+      const price = {};
+      price.first = ticker.first;
+      price.last = ticker.price;
+      coinInfo[i].price = price;
+    }
+
+    this.setState({
+      coinInfo,
+    });
   }
 
   render() {
     let { price } = this.state;
 
     return (
-      <div>
-        <CoinWrapper
-          coin="BTC"
-          color="teal"
-          price={price.btc.last}
-          firstPrice={price.btc.first}
-          trades={this.state.trades.btc}
-          step={500}
-        />
-        <CoinWrapper
-          coin="BCH"
-          color="teal"
-          price={price.bch.last}
-          firstPrice={price.bch.first}
-          trades={this.state.trades.bch}
-          step={100}
-        />
-        <CoinWrapper
-          coin="ETH"
-          color="violet"
-          price={price.eth.last}
-          firstPrice={price.eth.first}
-          trades={this.state.trades.eth}
-          step={50}
-        />
-        <CoinWrapper
-          coin="ETC"
-          color="violet"
-          price={price.etc.last}
-          firstPrice={price.etc.first}
-          trades={this.state.trades.etc}
-          step={10}
-        />
-        <CoinWrapper
-          coin="XRP"
-          color="orange"
-          price={price.xrp.last}
-          firstPrice={price.xrp.first}
-          trades={this.state.trades.xrp}
-          step={1}
-        />
-        <CoinWrapper
-          coin="QTUM"
-          color="purple"
-          price={price.qtum.last}
-          firstPrice={price.qtum.first}
-          trades={this.state.trades.qtum}
-          step={10}
-        />
+      <div className={styles.Coinone}>
+        <div className={styles.title}>
+          COINONE
+          </div>
+        <div>
+          {this.state.coinInfo.map((info) => {
+            if (info.price && info.trades) {
+              return (<CoinWrapper
+                coin={info.name}
+                color={info.color}
+                price={info.price.last}
+                firstPrice={info.price.first}
+                trades={info.trades}
+              />
+              );
+            }
+          })}
+        </div>
       </div>
     );
   }

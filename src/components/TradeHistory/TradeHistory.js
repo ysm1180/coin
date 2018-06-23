@@ -5,11 +5,11 @@ import TradeQtyChart from '../TradeQtyChart/TradeQtyChart';
 const cx = classnames.bind(styles);
 
 const TradeHistory = ({ trades }) => {
-  const TIME_MINUTE = 15;
+  const TIME_MINUTE = 60;
 
   let tradeSet = [];
   let prevPrice = trades.length > 0 ? trades[0] : '';
-  let tradeQtySum = [0, 0, 0]; // 해당 Array 의 element 수에 따라 그래프 표시 개수도 달라짐
+  let tradeQtySum = [0, 0, 0, 0, 0, 0]; // 해당 Array 의 element 수에 따라 그래프 표시 개수도 달라짐
   let time = [];
   let lastPrices = [];
 
@@ -60,9 +60,9 @@ const TradeHistory = ({ trades }) => {
 
   const labels = [];
   for (let i = 0; i < tradeQtySum.length; ++i) {
-    const minuteZone = Math.floor(time[i].getMinutes() / TIME_MINUTE);
+    const hour = time[i].getHours();
     labels.push(
-      `${minuteZone * TIME_MINUTE}분 - ${((minuteZone + 1) % 4) * TIME_MINUTE}분`
+      `${hour}시 - ${(hour + 1)}시`
     );
   }
 
@@ -80,7 +80,7 @@ const TradeHistory = ({ trades }) => {
           </div>
         );
       })}
-      <TradeQtyChart values={tradeQtySum.reverse()} labels={labels.reverse()} prices={lastPrices.reverse()}/>
+      <TradeQtyChart values={tradeQtySum.reverse()} labels={labels.reverse()} prices={lastPrices.reverse()} />
     </div>
   );
 };

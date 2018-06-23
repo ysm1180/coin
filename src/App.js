@@ -32,7 +32,7 @@ class App extends Component {
       <div>
         <Header />
         <MyInfoContainer />
-        <Coinone phone={this.state.phone} />
+        <Coinone />
       </div>
     );
   }
