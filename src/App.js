@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { instanceOf } from 'prop-types';
-import { MyInfoContainer, Coinone } from './containers';
+import { MyInfoContainer, Coinone, Upbit } from './containers';
 import { Header } from './components';
 import { withCookies, Cookies } from 'react-cookie';
 
@@ -32,6 +32,7 @@ class App extends Component {
       <div>
         <Header />
         <MyInfoContainer />
+        <Upbit />
         <Coinone />
       </div>
     );

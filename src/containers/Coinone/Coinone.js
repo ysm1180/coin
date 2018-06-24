@@ -159,14 +159,19 @@ class Coinone extends Component {
         <div>
           {coinInfo.map((info) => {
             if (info.price && info.trades) {
-              return (<CoinWrapper
-                coin={info.name}
+              return (<CoinWrapper 
+                key={info.name}
+                coin={info.name.toUpperCase()}
                 color={info.color}
                 price={info.price.last}
                 firstPrice={info.price.first}
                 trades={info.trades}
               />
               );
+            } else {
+              return (
+                <div key={info.name} />
+              )
             }
           })}
         </div>

@@ -1,0 +1,41 @@
+.SimpleCoinPrice {
+    display: inline-block;
+    .item {
+        display: inline-block;
+        padding: 0.3em;
+
+        .name {
+            display: inline-block;
+            font-weight: bold;
+            width: 50px;
+        }
+
+        .price {
+            display: inline-block;
+            width: 90px;
+            text-align: right;
+
+            &.blue {
+                color: blue;
+            }
+
+            &.red {
+                color: red;
+            }
+        }
+
+        .percent {
+            display: inline-block;
+            width: 60px;
+            text-align: right;
+
+            &.blue {
+                color: blue;
+            }
+
+            &.red {
+                color: red;
+            }
+        }
+    }
+}

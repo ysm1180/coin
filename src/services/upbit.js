@@ -12,7 +12,13 @@ function getServerAxios() {
 }
 
 export function getAccounts() {
-  return getServerAxios().get(
-    `api/upbit/private/accounts`
-  );
+  return getServerAxios().get(`api/upbit/private/accounts`);
+}
+
+export function getMarket(currency = 'ALL') {
+  return getServerAxios().get(`api/upbit/public/market/${currency}`);
+}
+
+export function getTicker(market) {
+  return getServerAxios().get(`api/upbit/public/ticker/${market}`);
 }

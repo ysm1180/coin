@@ -1,0 +1,25 @@
+.Upbit {
+    .title {
+        text-align: center;
+        font-size: 2em;
+        font-weight: bold;
+        padding: 1em 0;
+        background-color: #093687;
+        color: white;
+    }
+
+    .market {
+        padding: 1em;
+        flex: 1;
+
+        .krw {
+            padding: .5em 0;
+            background-color: #3367D6;
+        }
+
+        .btc {
+            padding: .5em 0;
+            background-color: #F08919;
+        }
+    }
+}

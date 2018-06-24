@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { MyInfoWrapper } from '../../components';
+import styles from '../../styles/MyInfoContainer.scss';
+import { Button } from 'semantic-ui-react';
 import * as UpbitService from '../../services/upbit';
 
 class MyInfoContainer extends Component {
@@ -7,7 +9,7 @@ class MyInfoContainer extends Component {
     super(props);
 
     this.state = {
-      accounts: 0,
+      balance: [],
     };
   }
 
@@ -17,18 +19,29 @@ class MyInfoContainer extends Component {
 
   async loadAccount() {
     const data = await UpbitService.getAccounts();
-    const accounts = Math.floor(data.data[0].balance);
+    const balance = data.data;
 
     this.setState({
-      accounts
+      balance
     });
   }
 
   render() {
     return (
-      <MyInfoWrapper
-        account={this.state.accounts}
-      />
+      <div className={styles.MyInfoContainer}>
+        {this.state.balance.map((data) => {
+          return (
+            <MyInfoWrapper
+              key={data.currency}
+              currency={data.currency}
+              balance={data.balance}
+            />
+          )
+        })}
+        <div className={styles.refreshButton}>
+          <Button size='mini' icon='refresh' onClick={() => { this.loadAccount(); }} />
+        </div>
+      </div>
     );
   }
 }
