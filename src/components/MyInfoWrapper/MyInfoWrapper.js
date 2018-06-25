@@ -11,7 +11,7 @@ class MyInfoWrapper extends Component {
 
     return (
       <div className={styles.MyInfoWrapper}>
-        <Statistic size='tiny'>
+        <Statistic size='mini' inverted horizontal>
           <Statistic.Value>{balance} {currency}</Statistic.Value>
           <Statistic.Label>UPBIT</Statistic.Label>
         </Statistic>

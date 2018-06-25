@@ -63,7 +63,6 @@ router.get('/ticker/:coin', function (req, res) {
       response = JSON.parse(response);
       tickerData = response;
 
-      console.log('GET');
       if (response.errorCode === '0') {
         var data = {};
 

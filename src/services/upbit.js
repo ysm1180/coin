@@ -22,3 +22,7 @@ export function getMarket(currency = 'ALL') {
 export function getTicker(market) {
   return getServerAxios().get(`api/upbit/public/ticker/${market}`);
 }
+
+export function getMinuteCandles(market, minutes, count = 5) {
+  return getServerAxios().get(`api/upbit/public/candle/minutes/${market}/${minutes}/${count}`);
+}

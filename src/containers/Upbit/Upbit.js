@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
-import { SimpleCoinPrice } from '../../components'
+import SimpleCoinPrice from '../SimpleCoinPrice/SimpleCoinPrice'
+import MyInfoContainer from '../MyInfoContainer/MyInfoContainer';
+import CoinChart from '../CoinChart/CoinChart'
 import * as services from '../../services/upbit';
 import styles from '../../styles/Upbit.scss';
 import classnames from 'classnames/bind';
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
+
 const cx = classnames.bind(styles);
 
 class Upbit extends Component {
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
 
     constructor(props) {
         super(props);
@@ -18,21 +26,51 @@ class Upbit extends Component {
             tickers: {
 
             },
+            candles: {
+
+            },
+            selectedMarket: {
+                krw: {},
+                btc: {},
+            },
+            canvasContainerSize: [],
         };
+
+        this.fetchMarketList = this.fetchMarketList.bind(this);
+        this.fetchCoinTicker = this.fetchCoinTicker.bind(this);
+
+
     }
 
     componentDidMount() {
+        this.sizingEvent = () => {
+            const size = [0, 0];
+            size[0] = this.refs.canvasContainer.clientWidth;
+            size[1] = this.refs.canvasContainer.clientHeight;
+
+            this.setState({
+                canvasContainerSize: size,
+            });
+        };
+        this.sizingEvent();
+        window.addEventListener('resize', this.sizingEvent);
+
         this.fetchMarketList().then(() => {
+            this.fetchCoinCandle();
             this.fetchCoinTicker();
-            setInterval(() => {
+            this.coinTicker = setInterval(() => {
                 this.fetchCoinTicker();
-            }, 100);
+            }, 2000);
+            this.coinCandle = setInterval(() => {
+                this.fetchCoinCandle();
+            }, 2000);
         });
-
-
     }
 
     componentWillUnmount() {
+        clearInterval(this.coinTicker);
+        clearInterval(this.coinCandle);
+        window.removeEventListener('resize', this.sizingEvent);
     }
 
     fetchMarketList() {
@@ -49,11 +87,25 @@ class Upbit extends Component {
             this.setState({
                 markets
             });
+
+            const { cookies } = this.props;
+            krw.map((krw) => {
+                const value = cookies.get(krw.market) || null;
+                if (value === 'true') {
+                    const selectedMarket = Object.assign({}, this.state.selectedMarket);
+                    selectedMarket.krw[krw.market] = true;
+                    this.setState({
+                        selectedMarket,
+                    });
+                }
+            });
         });
     }
 
     fetchCoinTicker() {
-        services.getTicker(this.state.markets.krw.map((krw) => krw.market).join(',')).then(data => {
+        const all = this.state.markets.krw.concat(this.state.markets.btc);
+
+        services.getTicker(all.map((info) => info.market).join(',')).then(data => {
             const ticker = data.data;
 
             const state = {};
@@ -66,24 +118,39 @@ class Upbit extends Component {
                     ...prevState.tickers,
                     ...state,
                 }
-            }))
+            }));
         });
+    }
 
-        services.getTicker(this.state.markets.btc.map((btc) => btc.market).join(',')).then(data => {
-            const ticker = data.data;
+    fetchCoinCandle() {
+        for (const market in this.state.selectedMarket.krw) {
+            services.getMinuteCandles(market, 15, Math.floor(this.state.canvasContainerSize[0] / 40)).then((data) => {
+                const candles = data.data;
 
-            const state = {};
-            for (let i = 0; i < ticker.length; i++) {
-                state[ticker[i].market] = ticker[i];
-            }
+                const state = {};
+                state[market] = candles;
 
-            this.setState(prevState => ({
-                tickers: {
-                    ...prevState.tickers,
-                    ...state,
-                }
-            }))
-        });
+                this.setState(prevState => ({
+                    candles: {
+                        ...prevState.candles,
+                        ...state,
+                    }
+                }));
+            });
+        }
+    }
+
+    onClick(currency, market) {
+        const { cookies } = this.props;
+
+        if (this.state.selectedMarket[currency][market]) {
+            delete this.state.selectedMarket[currency][market];
+            cookies.remove(market);
+        } else {
+            this.state.selectedMarket[currency][market] = true;
+            cookies.set(market, 'true', { path: '/' });
+            this.fetchCoinCandle();
+        }
     }
 
     render() {
@@ -91,19 +158,22 @@ class Upbit extends Component {
             display: 'flex',
         };
 
-        
+        var inlineBlockStyle = {
+            display: 'inline-block',
+        };
+
         const krw = this.state.markets.krw.slice(0).sort((a, b) => {
             if (this.state.tickers[a.market] && this.state.tickers[b.market]) {
-                return this.state.tickers[b.market].trade_price / this.state.tickers[b.market].opening_price - this.state.tickers[a.market].trade_price / this.state.tickers[a.market].opening_price
-            } else  {
+                return this.state.tickers[b.market].trade_price / this.state.tickers[b.market].prev_closing_price - this.state.tickers[a.market].trade_price / this.state.tickers[a.market].prev_closing_price
+            } else {
                 return 0;
             }
         });
 
         const btc = this.state.markets.btc.slice(0).sort((a, b) => {
             if (this.state.tickers[a.market] && this.state.tickers[b.market]) {
-                return this.state.tickers[b.market].trade_price / this.state.tickers[b.market].opening_price - this.state.tickers[a.market].trade_price / this.state.tickers[a.market].opening_price
-            } else  {
+                return this.state.tickers[b.market].trade_price / this.state.tickers[b.market].prev_closing_price - this.state.tickers[a.market].trade_price / this.state.tickers[a.market].prev_closing_price
+            } else {
                 return 0;
             }
         });
@@ -111,7 +181,10 @@ class Upbit extends Component {
         return (
             <div className={styles.Upbit}>
                 <div className={styles.title}>
-                    UPBIT
+                    <div style={inlineBlockStyle}>
+                        UPBIT
+                    </div>
+                    <MyInfoContainer />
                 </div>
                 <div style={flexStyle}>
                     <div className={styles.market}>
@@ -124,22 +197,44 @@ class Upbit extends Component {
                                     return (
                                         <SimpleCoinPrice
                                             key={krw.market}
+                                            currency='krw'
+                                            market={krw.market}
                                             name={krw.market.replace('KRW-', '')}
                                             change={this.state.tickers[krw.market].change}
                                             price={this.state.tickers[krw.market].trade_price}
-                                            openPrice={this.state.tickers[krw.market].opening_price}
+                                            lastPrice={this.state.tickers[krw.market].prev_closing_price}
+                                            onClick={this.onClick.bind(this)}
+                                            selected={this.state.selectedMarket.krw[krw.market]}
                                         />
-                                    )
+                                    );
                                 } else {
-                                    <SimpleCoinPrice
-                                        key={krw.market}
-                                        name={krw.market.replace('KRW-', '')}
-                                        price={0}
-                                        openPrice={0}
-                                    />
+                                    return (
+                                        <div />
+                                    );
+                                }
+                            })}
+                        </div>
+
+                        <div ref="canvasContainer">
+                            {(() => {
+                                const charts = [];
+                                for (const market in this.state.selectedMarket.krw) {
+                                    charts.push(
+                                        <CoinChart
+                                            width={this.state.canvasContainerSize[0] / 2 - 10}
+                                            height={200}
+                                            data={this.state.candles[market]}
+                                        />
+                                    );
                                 }
 
-                            })}
+                                return (
+                                    <div>
+                                        {charts}
+                                    </div>
+                                );
+                            })()}
+
                         </div>
                     </div>
 
@@ -153,19 +248,19 @@ class Upbit extends Component {
                                     return (
                                         <SimpleCoinPrice
                                             key={btc.market}
+                                            currency='btc'
+                                            market={btc.market}
                                             name={btc.market.replace('BTC-', '')}
                                             change={this.state.tickers[btc.market].change}
                                             price={this.state.tickers[btc.market].trade_price}
-                                            openPrice={this.state.tickers[btc.market].opening_price}
+                                            lastPrice={this.state.tickers[btc.market].prev_closing_price}
                                         />
                                     )
                                 } else {
-                                    <SimpleCoinPrice
-                                        key={btc.market}
-                                        name={btc.market.replace('BTC-', '')}
-                                        price={0}
-                                        openPrice={0}
-                                    />
+                                    return (
+                                        <div />
+
+                                    )
                                 }
                             })}
                         </div>
@@ -176,4 +271,4 @@ class Upbit extends Component {
     }
 }
 
-export default Upbit;
+export default withCookies(Upbit);

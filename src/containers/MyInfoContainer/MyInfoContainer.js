@@ -14,7 +14,9 @@ class MyInfoContainer extends Component {
   }
 
   componentDidMount() {
-    this.loadAccount();
+    this.interval = setInterval(() => {
+      this.loadAccount();
+    }, 5000);
   }
 
   async loadAccount() {
@@ -38,9 +40,6 @@ class MyInfoContainer extends Component {
             />
           )
         })}
-        <div className={styles.refreshButton}>
-          <Button size='mini' icon='refresh' onClick={() => { this.loadAccount(); }} />
-        </div>
       </div>
     );
   }

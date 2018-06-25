@@ -1,9 +1,8 @@
 .Upbit {
     .title {
-        text-align: center;
         font-size: 2em;
         font-weight: bold;
-        padding: 1em 0;
+        padding: .7em;
         background-color: #093687;
         color: white;
     }
@@ -13,13 +12,20 @@
         flex: 1;
 
         .krw {
-            padding: .5em 0;
+            font-size: 1em;
             background-color: #3367D6;
         }
 
         .btc {
-            padding: .5em 0;
+            font-size: 1em;
             background-color: #F08919;
+        }
+
+        .subtitle {
+            width: 30%;
+            padding: .5em;
+            background-color: #21262F;
+            color: white;
         }
     }
 }

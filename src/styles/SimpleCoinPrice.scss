@@ -1,40 +1,48 @@
 .SimpleCoinPrice {
     display: inline-block;
+    cursor: pointer;
+    transition: .5s ease;
+    &:hover {
+        background-color: #F4F5F8;
+    }
+    &.selected {
+        background-color: #FCE9F1;
+    }
     .item {
         display: inline-block;
         padding: 0.3em;
-
+        margin-right: 1em;
         .name {
             display: inline-block;
             font-weight: bold;
             width: 50px;
         }
-
         .price {
             display: inline-block;
             width: 90px;
             text-align: right;
-
             &.blue {
                 color: blue;
             }
-
             &.red {
                 color: red;
             }
+            &.grey {
+                color: grey;
+            }
         }
-
         .percent {
             display: inline-block;
             width: 60px;
             text-align: right;
-
             &.blue {
                 color: blue;
             }
-
             &.red {
                 color: red;
+            }
+            &.grey {
+                color: grey;
             }
         }
     }

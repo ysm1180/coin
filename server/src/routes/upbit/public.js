@@ -24,4 +24,11 @@ router.get('/ticker/:market', function (req, res) {
         });
 });
 
+router.get('/candle/minutes/:market/:minutes/:count', function (req, res) {
+    Upbit.request().get(`candles/minutes/${req.params.minutes}?market=${req.params.market}&count=${req.params.count}`)
+        .then(respond => {
+            res.end(JSON.stringify(respond.data));
+        });
+});
+
 export default router;
